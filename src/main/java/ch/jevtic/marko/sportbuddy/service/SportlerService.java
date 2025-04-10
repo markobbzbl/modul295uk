@@ -3,6 +3,7 @@ package ch.jevtic.marko.sportbuddy.service;
 import java.net.http.HttpResponse.ResponseInfo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,14 @@ public class SportlerService {
     }
 
     public Sportler createSportler(Sportler sportler) {
-        return sportlerRepository.save(sportler);
+        Optional<Sportler> exisitingSportler = sportlerRepository.findByUsername(sportler.getUsername());
+       
+        if(exisitingSportler.isEmpty()){
+
+            return sportlerRepository.save(sportler);
+        } else {
+            throw new RuntimeException("Sportler mit dem Nutzernamen '" + sportler.getUsername() + "' exisitiert bereits.");
+        }
     }
 
     public Sportler updateSportler(Sportler sportler, Long id) {
