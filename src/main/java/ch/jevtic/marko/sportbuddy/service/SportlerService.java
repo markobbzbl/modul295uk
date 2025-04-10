@@ -31,13 +31,16 @@ public class SportlerService {
     }
 
     public Sportler createSportler(Sportler sportler) {
+
+        // check if athlete exists
         Optional<Sportler> exisitingSportler = sportlerRepository.findByUsername(sportler.getUsername());
-       
-        if(exisitingSportler.isEmpty()){
+
+        if (exisitingSportler.isEmpty()) {
 
             return sportlerRepository.save(sportler);
         } else {
-            throw new RuntimeException("Sportler mit dem Nutzernamen '" + sportler.getUsername() + "' exisitiert bereits.");
+            throw new RuntimeException(
+                    "Sportler mit dem Nutzernamen '" + sportler.getUsername() + "' exisitiert bereits.");
         }
     }
 

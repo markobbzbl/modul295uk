@@ -9,5 +9,4 @@ import ch.jevtic.marko.sportbuddy.model.Match;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
-    
 }

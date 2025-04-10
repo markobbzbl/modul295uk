@@ -16,32 +16,30 @@ public class KategorieService {
     @Autowired
     private KategorieRepository kategorieRepository;
 
-    // Get all
     public List<Kategorie> getAllKategorie() {
         return kategorieRepository.findAll();
     }
 
-    // Get specific kategorie
-    // add Id to exception
     public Kategorie getKategorieById(Long id) {
         return kategorieRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Kategorie with id " + id + " not found"));
     }
 
-    // Create new kategorie
     public Kategorie createKategorie(Kategorie kategorie) {
+
+        // check if category exists
         Optional<Kategorie> existingKategorie = kategorieRepository.findByName(kategorie.getName());
 
         if (existingKategorie.isEmpty()) {
 
             return kategorieRepository.save(kategorie);
+
         } else {
             throw new RuntimeException("Kategorie '" + kategorie.getName() + "' exisitiert bereits.");
 
         }
     }
 
-    // Update existing kategorie
     public Kategorie updateKategorie(Kategorie kategorie, Long id) {
         return kategorieRepository.findById(id)
                 .map(kategorieOrig -> {

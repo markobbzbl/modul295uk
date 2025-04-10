@@ -39,7 +39,6 @@ public class SportartController {
     @PostMapping("api/sportart")
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Sportart> createSportart(@RequestBody Sportart sportart) {
-        System.out.println("ALLAH " + sportart);
         Sportart newSportart = sportartService.createSportart(sportart);
         return new ResponseEntity<>(newSportart, HttpStatus.CREATED);
     }

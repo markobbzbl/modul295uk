@@ -24,15 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
-
-
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 @Validated
 public class SportlerController {
-    
+
     @Autowired
     private SportlerService sportlerService;
 
@@ -40,7 +36,6 @@ public class SportlerController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<List<Sportler>> getAllSportler() {
         List<Sportler> allSportler = sportlerService.getAllSportler();
-        System.out.println("Allah");    
 
         return new ResponseEntity<>(allSportler, HttpStatus.OK);
     }
@@ -55,27 +50,25 @@ public class SportlerController {
     @RolesAllowed(Roles.Admin)
     @PostMapping("api/sportler")
     public ResponseEntity<Sportler> createSportler(@RequestBody Sportler sportler) {
-        Sportler newSportler = sportlerService.createSportler(sportler);    
-        System.out.println("Allah");    
+        Sportler newSportler = sportlerService.createSportler(sportler);
         return new ResponseEntity<>(newSportler, HttpStatus.OK);
     }
 
     @RolesAllowed(Roles.Admin)
     @PutMapping("api/sportler/{id}")
     public ResponseEntity<Sportler> updateSportler(@RequestBody Sportler sportler, @PathVariable Long id) {
-        Sportler updatedSportler = sportlerService.updateSportler(sportler, id);        
+        Sportler updatedSportler = sportlerService.updateSportler(sportler, id);
         return new ResponseEntity<>(updatedSportler, HttpStatus.OK);
     }
-    
+
     @DeleteMapping("api/sportler/{id}")
     @RolesAllowed(Roles.Admin)
-    public ResponseEntity<String> deleteSportler(@PathVariable Long id){
+    public ResponseEntity<String> deleteSportler(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(sportlerService.deleteSportler(id));
         } catch (Throwable t) {
             return ResponseEntity.internalServerError().build();
         }
     }
-
 
 }

@@ -9,6 +9,6 @@ import ch.jevtic.marko.sportbuddy.model.Kategorie;
 
 @Repository
 public interface KategorieRepository extends JpaRepository<Kategorie, Long> {
-    
+
     Optional<Kategorie> findByName(String name);
 }

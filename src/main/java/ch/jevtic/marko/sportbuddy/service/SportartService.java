@@ -14,8 +14,6 @@ import ch.jevtic.marko.sportbuddy.model.Sportart;
 import ch.jevtic.marko.sportbuddy.repository.KategorieRepository;
 import ch.jevtic.marko.sportbuddy.repository.SportartRepository;
 
-
-
 @Service
 public class SportartService {
 
@@ -34,16 +32,16 @@ public class SportartService {
                 .orElseThrow(() -> new RuntimeException("Sportart mit ID " + id + " nicht gefunden."));
     }
 
-
     public Sportart createSportart(Sportart sportart) {
-        
+
+        // check if sport-type exists
+
         Optional<Sportart> existingSportart = sportartRepository.findByName(sportart.getName());
         List<String> kategorieNamen = sportart.getKategorien();
 
-        System.out.println("Kategorie-Namen aus Input: " + kategorieNamen);
         Sportart newSportart = new Sportart();
 
-        if(existingSportart.isEmpty()){
+        if (existingSportart.isEmpty()) {
             if (kategorieNamen != null) {
                 for (String name : kategorieNamen) {
                     if (kategorieRepository.findByName(name).isEmpty()) {
@@ -53,10 +51,10 @@ public class SportartService {
                 newSportart.setName(sportart.getName());
                 newSportart.setKategorien(kategorieNamen);
             }
-            
+
         } else {
             throw new RuntimeException("Sportart '" + sportart.getName() + "' exisitiert bereits.");
-            
+
         }
         Sportart savedSportart = sportartRepository.save(newSportart);
 

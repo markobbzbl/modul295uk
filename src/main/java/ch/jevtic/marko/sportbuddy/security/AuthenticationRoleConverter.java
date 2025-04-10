@@ -29,15 +29,13 @@ public class AuthenticationRoleConverter implements Converter<Jwt, AbstractAuthe
             Collection<String> roles = (Collection<String>) realmAccess.get("roles");
             if (roles != null) {
                 return roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))  // Add "ROLE_" prefix here
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // Add "ROLE_" prefix here
                         .collect(Collectors.toSet());
             }
         }
         return Collections.emptySet();
     }
-    
-    
-    
+
     private static Collection<? extends GrantedAuthority> extractResourceRoles(final Jwt jwt) {
         Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
         if (resourceAccess != null) {
@@ -46,15 +44,13 @@ public class AuthenticationRoleConverter implements Converter<Jwt, AbstractAuthe
                 Collection<String> roles = (Collection<String>) sportbuddyAccess.get("roles");
                 if (roles != null) {
                     return roles.stream()
-                            .map(SimpleGrantedAuthority::new)  // No "ROLE_" prefix
+                            .map(SimpleGrantedAuthority::new) // No "ROLE_" prefix
                             .collect(Collectors.toSet());
                 }
             }
         }
         return Collections.emptySet();
     }
-    
-    
 
     @Override
     public AbstractAuthenticationToken convert(final Jwt source) {
@@ -63,9 +59,8 @@ public class AuthenticationRoleConverter implements Converter<Jwt, AbstractAuthe
                 defaultGrantedAuthoritiesConverter.convert(source).stream(),
                 Stream.concat(
                         extractRealmRoles(source).stream(),
-                        extractResourceRoles(source).stream()
-                )
-        ).collect(Collectors.toSet());
+                        extractResourceRoles(source).stream()))
+                .collect(Collectors.toSet());
 
         // Return the JwtAuthenticationToken with the collected authorities
         return new JwtAuthenticationToken(source, authorities);

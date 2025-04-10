@@ -9,6 +9,6 @@ import ch.jevtic.marko.sportbuddy.model.Sportart;
 
 @Repository
 public interface SportartRepository extends JpaRepository<Sportart, Long> {
- 
+
     Optional<Sportart> findByName(String name);
 }
