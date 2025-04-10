@@ -1,6 +1,7 @@
 package ch.jevtic.marko.sportbuddy.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,15 @@ public class KategorieService {
 
     // Create new kategorie
     public Kategorie createKategorie(Kategorie kategorie) {
-        return kategorieRepository.save(kategorie);
+        Optional<Kategorie> existingKategorie = kategorieRepository.findByName(kategorie.getName());
+
+        if (existingKategorie.isEmpty()) {
+
+            return kategorieRepository.save(kategorie);
+        } else {
+            throw new RuntimeException("Kategorie '" + kategorie.getName() + "' exisitiert bereits.");
+
+        }
     }
 
     // Update existing kategorie
