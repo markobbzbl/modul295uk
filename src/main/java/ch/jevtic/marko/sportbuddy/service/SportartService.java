@@ -2,6 +2,7 @@ package ch.jevtic.marko.sportbuddy.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,27 +36,29 @@ public class SportartService {
 
 
     public Sportart createSportart(Sportart sportart) {
-        Sportart newSportart = new Sportart();
-        newSportart.setName(sportart.getName());
+        
+        Optional<Sportart> existingSportart = sportartRepository.findByName(sportart.getName());
         List<String> kategorieNamen = sportart.getKategorien();
 
         System.out.println("Kategorie-Namen aus Input: " + kategorieNamen);
+        Sportart newSportart = new Sportart();
 
-        if (kategorieNamen != null) {
-            for (String name : kategorieNamen) {
-                if (kategorieRepository.findByName(name).isEmpty()) {
-                    throw new RuntimeException("Kategorie '" + name + "' nicht gefunden.");
+        if(existingSportart.isEmpty()){
+            if (kategorieNamen != null) {
+                for (String name : kategorieNamen) {
+                    if (kategorieRepository.findByName(name).isEmpty()) {
+                        throw new RuntimeException("Kategorie '" + name + "' nicht gefunden.");
+                    }
                 }
+                newSportart.setName(sportart.getName());
+                newSportart.setKategorien(kategorieNamen);
             }
+            
+        } else {
+            throw new RuntimeException("Sportart '" + sportart.getName() + "' exisitiert bereits.");
+            
         }
-
-        newSportart.setKategorien(kategorieNamen);
-
-        System.out.println("Zu speichernde Sportart: " + newSportart);
-
         Sportart savedSportart = sportartRepository.save(newSportart);
-
-        System.out.println("Gespeicherte Sportart: " + savedSportart);
 
         return savedSportart;
     }
