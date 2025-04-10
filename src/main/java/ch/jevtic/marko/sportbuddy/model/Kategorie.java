@@ -1,5 +1,6 @@
 package ch.jevtic.marko.sportbuddy.model;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,7 +12,8 @@ public class Kategorie {
     @GeneratedValue
     private Long id;
 
+    @Column()
+    @NonNull
     private String name;
 
-    private Integer schwierigkeitsGrad; // 1–3
 }

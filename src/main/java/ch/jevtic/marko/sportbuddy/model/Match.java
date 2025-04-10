@@ -12,9 +12,11 @@ public class Match {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "sportler1_id")
     private Sportler sportler1;
 
     @ManyToOne
+    @JoinColumn(name = "sportler2_id")
     private Sportler sportler2;
 
     private boolean bestätigt;
