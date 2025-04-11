@@ -1,6 +1,5 @@
 package ch.jevtic.marko.sportbuddy.service;
 
-import java.net.http.HttpResponse.ResponseInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ch.jevtic.marko.sportbuddy.model.Match;
 import ch.jevtic.marko.sportbuddy.model.Sportler;
+import ch.jevtic.marko.sportbuddy.repository.MatchRepository;
 import ch.jevtic.marko.sportbuddy.repository.SportlerRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,7 +17,14 @@ import jakarta.persistence.EntityNotFoundException;
 public class SportlerService {
 
     @Autowired
+    private MatchRepository matchRepository;
+
+    @Autowired
     private SportlerRepository sportlerRepository;
+
+    SportlerService(MatchRepository matchRepository) {
+        this.matchRepository = matchRepository;
+    }
 
     // Get all
     public List<Sportler> getAllSportler() {
@@ -70,8 +78,19 @@ public class SportlerService {
     }
 
     public String deleteSportler(Long id) {
-        sportlerRepository.deleteById(id);
-        return "Sportler with id: " + id + " has been deleted";
+        if (!sportlerRepository.existsById(id)) {
+            throw new RuntimeException("Sportler mit ID " + id + " existiert nicht.");
+        } else {
+            List<Match> match = matchRepository.findBySportler1IdOrSportler2Id(id, id);
+            if (!match.isEmpty()) {
+                return "Sportler mit der ID " + id
+                        + " kann nicht gelöscht werden da die Person noch existierende Matches besitzt";
+            } else {
 
+                sportlerRepository.deleteById(id);
+                return "Sportler mit der ID " + id + " wurde erfolgreich gelöscht.";
+            }
+        }
     }
+
 }

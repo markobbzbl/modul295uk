@@ -22,7 +22,7 @@ public class KategorieService {
 
     public Kategorie getKategorieById(Long id) {
         return kategorieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Kategorie with id " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Kategorie mit id " + id + " exisitert  nicht"));
     }
 
     public Kategorie createKategorie(Kategorie kategorie) {
@@ -55,6 +55,6 @@ public class KategorieService {
     // Delete kategorie by id
     public String deleteKategorie(Long id) {
         kategorieRepository.deleteById(id);
-        return "Kategorie with id: " + id + " has been deleted";
+        return "Kategorie ,it id: " + id + " wurde gelöscht";
     }
 }

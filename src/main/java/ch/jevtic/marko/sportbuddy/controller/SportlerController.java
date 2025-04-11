@@ -13,6 +13,7 @@ import org.springframework.web.service.annotation.PatchExchange;
 import ch.jevtic.marko.sportbuddy.model.Sportler;
 import ch.jevtic.marko.sportbuddy.security.Roles;
 import ch.jevtic.marko.sportbuddy.service.SportlerService;
+import io.micrometer.common.lang.NonNull;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
 
@@ -63,12 +64,9 @@ public class SportlerController {
 
     @DeleteMapping("api/sportler/{id}")
     @RolesAllowed(Roles.Admin)
-    public ResponseEntity<String> deleteSportler(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(sportlerService.deleteSportler(id));
-        } catch (Throwable t) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<String> deleteSportler(@PathVariable @NonNull Long id) {
+    return ResponseEntity.ok(sportlerService.deleteSportler(id));
+
     }
 
 }
