@@ -21,6 +21,8 @@ public class DbCrudTest {
     @Autowired
     private KategorieRepository kategorieRepository;
 
+
+    //TESTING CRUD OPERATIONS
     @Test
     void testCreateKategorie() {
         Kategorie kategorie = new Kategorie();
