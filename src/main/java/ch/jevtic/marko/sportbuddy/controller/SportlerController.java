@@ -33,7 +33,7 @@ public class SportlerController {
     private SportlerService sportlerService;
 
     @GetMapping("api/sportler")
-    @RolesAllowed(Roles.Admin)
+    @RolesAllowed(Roles.Read)
     public ResponseEntity<List<Sportler>> getAllSportler() {
         List<Sportler> allSportler = sportlerService.getAllSportler();
 
