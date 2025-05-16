@@ -33,7 +33,7 @@ public class Sportler {
     private String ort;
 
     @Column()
-    private String verfügbarkeit;
+    private String verfuegbarkeit;
 
     // Sportarten als IDs speichern
     @ElementCollection

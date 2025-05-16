@@ -70,7 +70,7 @@ public class SportlerService {
                         sportlerOrig.setKategorieIds(sportler.getKategorieIds());
 
                     }
-                    sportlerOrig.setVerfügbarkeit(sportler.getVerfügbarkeit());
+                    sportlerOrig.setVerfuegbarkeit(sportler.getVerfuegbarkeit());
                     return sportlerRepository.save(sportlerOrig);
 
                 })
